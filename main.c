@@ -22,7 +22,7 @@ int main(int argc, char* argv[]){
 
 
     
-    while ((option = getopt(argc, argv, "n:c:o")) != -1) { // identify if alpha is specified through command line
+    while ((option = getopt(argc, argv, "n:c:o:")) != -1) { // identify if alpha is specified through command line
         switch (option) {
             case 'n':
                 n = strtof(optarg, NULL);  // number of addresses to process
