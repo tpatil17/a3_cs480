@@ -13,8 +13,8 @@ int done_simulation = 0; // to busy wait the main thread till worker finshes
 int main(int argc, char* argv[]){
 
     int option = 0;
-    unsigned int n = 0;
-    unsigned int tlb_sz = 0;
+    int n = 0;
+    int tlb_sz = 0;
     char* log_mode= "summary";
     char* filename = NULL;
 
@@ -44,6 +44,7 @@ int main(int argc, char* argv[]){
                 break;
 
             default:
+                n = 1;
                 break;
         }
     }
