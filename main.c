@@ -7,6 +7,7 @@
 
 #define NORMAL_EXIT 0
 #define READ_BUFFER 1024
+#define max_bits 28
 
 int done_simulation = 0; // to busy wait the main thread till worker finshes
 
@@ -17,7 +18,10 @@ int main(int argc, char* argv[]){
     int n = 0;
     int tlb_sz = 0;
     int lvls = 0;
-    char* bits_arr; // arr of bits
+    int* bits_arr = (int*)malloc(sizeof(int)*max_bits); // arr of bits, the max levels allowed is 28 since sum of bits cant exceed 28
+    for(int i = 0; i < max_bits; i+=1){
+        bits_arr[i] = 0;
+    }
     char* log_mode= "summary";
     char* filename = NULL;
 
@@ -61,8 +65,14 @@ int main(int argc, char* argv[]){
         printf("the entered value for o: %s\n", log_mode);    
 
     filename = argv[optind];
-    bits_arr = argv[optind+1];
-    lvls = NumLvl(bits_arr); // calculate the depth
+    optind+=1; // to the bit array
+    int lvl_ctr = 0;
+    while(argv[optind] == NULL){
+        bits_arr[lvl_ctr] = argv[optind];
+        optind+=1;
+        lvl_ctr+=1;
+    }
+    lvls = lvl_ctr;// calculate the depth
 
 // If file name is not found 
     if (filename == NULL) {
@@ -93,31 +103,6 @@ int main(int argc, char* argv[]){
     }
     // Get in the structure specifics
 
-
-    int* treeScheme = processString(bits_arr, lvls); // array of bit counts per level
-
-
-    // Base on the given scheme calculate masks and shift sizes for each level
-    unsigned int* masks = GenerateMask(lvls, treeScheme);
-    unsigned int* shiftSizes = GetShiftSizes(treeScheme, lvls);
-    unsigned int* ptrArraySizes = (unsigned int*)malloc(sizeof(unsigned int)*lvls); // the array size for each page level
-
-    if(ptrArraySizes == NULL){
-        perror("Memory allocation failed\n");
-    }
-    // Explicit declaration of ptrArray
-    for(int i = 0; i < lvls; i++){
-        ptrArraySizes[i] = 0;
-    }
-    // Get the entry count size for each level
-    for(int i = 0; i < lvls; i++){
-        // 1 << x, where x is an intiger value, resluts in 1*(2^x)
-        // Hence in our case 1 << (number of bits assigned for a level) will yield 2^bits or the size of nextPtrarray
-        ptrArraySizes[i] = 1 << treeScheme[i]; 
-
-    }
-
-    
 
 //     char buffer[READ_BUFFER];
 //     char copy_buff[READ_BUFFER];
