@@ -87,7 +87,12 @@ int main(int argc, char* argv[]){
 // Print the file name and depth and array
 
     printf("File name: %s\n", filename);
-    printf("array of bits: %s\n",bits_arr );
+    printf("arr of bits : ");
+    for(int i =0; i < lvl_ctr; i+=1){
+        printf("%d",bits_arr[i]);
+    }
+    printf("\n");
+
     printf("Depth of the tree: %d\n", lvls);
 
 // Read the contents from the file
