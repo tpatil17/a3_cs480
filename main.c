@@ -67,8 +67,9 @@ int main(int argc, char* argv[]){
     filename = argv[optind];
     optind+=1; // to the bit array
     int lvl_ctr = 0;
-    while(argv[optind] == NULL){
+    while(argv[optind] != NULL){
         bits_arr[lvl_ctr] = atoi(argv[optind]);
+        printf("%d\n", argv[optind]);
         optind+=1;
         lvl_ctr+=1;
     }
