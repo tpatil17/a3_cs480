@@ -3,6 +3,7 @@
 #include<string.h>
 #include<getopt.h>
 #include<unistd.h>
+#include "BitMasker.h"
 
 #define NORMAL_EXIT 0
 #define READ_BUFFER 1024
@@ -32,14 +33,14 @@ int main(int argc, char* argv[]){
             case 'n':
                 n = strtof(optarg, NULL);  // number of addresses to process
                 if (n <= 0){
-                    printf("Number of memory accesses must be a number, greater than 0");
+                    printf("Number of memory accesses must be a number, greater than 0\n");
                     exit(NORMAL_EXIT);
                 }
                 break;
             case 'c': // the tlb cache size
                 tlb_sz = strtof(optarg, NULL);
                 if (tlb_sz <0){
-                    printf("Cache capacity must be a number, greater than or equal to 0");
+                    printf("Cache capacity must be a number, greater than or equal to 0\n");
                     exit(NORMAL_EXIT);
                 }
                 break;
@@ -86,7 +87,7 @@ int main(int argc, char* argv[]){
 
     // Check for file validity and permissions
     if(file == NULL){
-        printf("Unable to open <<%s>>", filename);
+        printf("Unable to open <<%s>>\n", filename);
         exit(NORMAL_EXIT);
     }else{
         printf("File name: <<%s>>\n", filename); //debug statement

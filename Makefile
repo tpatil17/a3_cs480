@@ -15,7 +15,7 @@ CCFLAGS = -std=c11 -g -Wall -c
 CFLAGS = -g -c
 
 # object files
-OBJS = main.o #PageTableLevel.o BitMasker.o tracereader.o main.o log.o
+OBJS = main.o BitMasker.o #PageTableLevel.o BitMasker.o tracereader.o main.o log.o
 
 # Program name
 PROGRAM = pagetrace
@@ -30,8 +30,8 @@ main.o : main.c
 #PageTableLevel.o : PageTableLevel.c PageTableLevel.h 
 #	$(CC) $(CCFLAGS) PageTableLevel.c
 
-#BitMasker.o : BitMasker.c BitMasker.h
-#	$(CC) $(CCFLAGS) BitMasker.c
+BitMasker.o : BitMasker.c BitMasker.h
+	$(CC) $(CCFLAGS) BitMasker.c
 
 #tracereader.o : tracereader.c tracereader.h
 #	$(CC) $(CCFLAGS) tracereader.c
