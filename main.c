@@ -69,7 +69,7 @@ int main(int argc, char* argv[]){
     int lvl_ctr = 0;
     while(argv[optind] != NULL){
         bits_arr[lvl_ctr] = atoi(argv[optind]);
-        printf("%d\n", argv[optind]);
+        //printf("%d\n", argv[optind]);
         optind+=1;
         lvl_ctr+=1;
     }
