@@ -17,7 +17,7 @@ int main(int argc, char* argv[]){
     int n = 0;
     int tlb_sz = 0;
     int lvls = 0;
-    int arr_ind; // argument index to find array of bits
+    char* bits_arr; // arr of bits
     char* log_mode= "summary";
     char* filename = NULL;
 
@@ -60,26 +60,25 @@ int main(int argc, char* argv[]){
         printf("the entered value for c: %u\n", tlb_sz);
         printf("the entered value for o: %s\n", log_mode);    
 
-    for (int i = optind; i < argc; i++) {
-        if (filename == NULL) {
-            filename = argv[i];  // Assuming first non optional arg is filename, according to online sources
-            if(argv[i+1] == NULL){
-                printf("page table needs page levels\n");
-                exit(NORMAL_EXIT);
-            }
-            lvls = NumLvl(argv[i+1]); // number of levels
-            arr_ind = i+1;
-        } else {
-            printf("additional argument detected: %s\n", argv[i]);
-            exit(NORMAL_EXIT);
-        }
-    }
+    filename = argv[optind];
+    bits_arr = argv[optind+1];
+    lvls = NumLvl(bits_arr); // calculate the depth
 
 // If file name is not found 
     if (filename == NULL) {
         printf("No file detected.\n");
         exit(NORMAL_EXIT);
     }
+    if(bits_arr == NULL){
+        printf("we need levels to procees\n");
+        exit(NORMAL_EXIT);
+    }
+
+// Print the file name and depth and array
+
+    printf("File name: %s\n", filename);
+    printf("array of bits: %s\n",bits_arr );
+    printf("Depth of the tree: %d\n", lvls);
 
 // Read the contents from the file
 
@@ -95,7 +94,7 @@ int main(int argc, char* argv[]){
     // Get in the structure specifics
 
 
-    int* treeScheme = processString(argv[arr_ind], lvls); // array of bit counts per level
+    int* treeScheme = processString(bits_arr, lvls); // array of bit counts per level
 
 
     // Base on the given scheme calculate masks and shift sizes for each level
