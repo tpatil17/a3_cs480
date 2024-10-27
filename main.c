@@ -29,9 +29,6 @@ int main(int argc, char* argv[]){
                 if (n <= 0){
                     printf("Number of memory accesses must be a number, greater than 0");
                     exit(NORMAL_EXIT);
-                }else{
-                    //debug statement
-                    printf("the entered value for n: %u\n", n);
                 }
                 break;
             case 'c': // the tlb cache size
@@ -39,15 +36,11 @@ int main(int argc, char* argv[]){
                 if (tlb_sz <0){
                     printf("Cache capacity must be a number, greater than or equal to 0");
                     exit(NORMAL_EXIT);
-                }else{
-                    //debug statement
-                    printf("the entered value for c: %u\n", tlb_sz);
                 }
                 break;
             case 'o': // the tlb cache size
                 log_mode = optarg;
-                //debug statement
-                printf("the entered value for o: %s\n", log_mode);
+                
                 break;
 
             default:
@@ -56,6 +49,9 @@ int main(int argc, char* argv[]){
     }
 
 // Get the file name
+        printf("the entered value for n: %u\n", n);
+        printf("the entered value for c: %u\n", tlb_sz);
+        printf("the entered value for o: %s\n", log_mode);    
 
     for (int i = optind; i < argc; i++) {
         if (filename == NULL) {
@@ -80,6 +76,8 @@ int main(int argc, char* argv[]){
     if(file == NULL){
         printf("Unable to open <<%s>>", filename);
         exit(NORMAL_EXIT);
+    }else{
+        printf("File name: <<%s>>\n", filename);
     }
     
 
