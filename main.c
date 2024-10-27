@@ -64,16 +64,26 @@ int main(int argc, char* argv[]){
         printf("the entered value for c: %u\n", tlb_sz);
         printf("the entered value for o: %s\n", log_mode);    
 
+// Fetch mandatory arguments and verify the input (error handling)
     filename = argv[optind];
     optind+=1; // to the bit array
     int lvl_ctr = 0;
+    int total_bits = 0;
     while(argv[optind] != NULL){
         bits_arr[lvl_ctr] = atoi(argv[optind]);
-        //printf("%d\n", argv[optind]);
+        if(bits_arr[lvl_ctr] <= 0){
+            printf("Level %d page table must be at least 1 bit\n", lvl_ctr);
+            exit(NORMAL_EXIT);
+        }
+        total_bits+= bits_arr[lvl_ctr];
         optind+=1;
         lvl_ctr+=1;
     }
     lvls = lvl_ctr;// calculate the depth
+    if(total_bits > max_bits){
+        printf("Too many bits used in page tables\n");
+    }
+
 
 // If file name is not found 
     if (filename == NULL) {
@@ -84,6 +94,7 @@ int main(int argc, char* argv[]){
         printf("we need levels to procees\n");
         exit(NORMAL_EXIT);
     }
+// *********************************************************************
 
 // Print the file name and depth and array
 
@@ -109,19 +120,5 @@ int main(int argc, char* argv[]){
     }
     // Get in the structure specifics
 
-
-//     char buffer[READ_BUFFER];
-//     char copy_buff[READ_BUFFER];
-//     char* token = NULL;
-//     unsigned int numProc = 0; // how many processes or lines do we have
-    
-// // count the number of lines
-
-//     while (fgets(buffer, READ_BUFFER, file) != NULL) {
-
-//         numProc += 1;
-//     }
-
-//     // Create a table to store the burst time for processes
 return 0;
 }
