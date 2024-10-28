@@ -184,7 +184,7 @@ Root.page_size = (unsigned int)1 << (32-sum); // 2^offset bits is the page size
 
     Root.zeroPage = level0;
     level0->numEntries = Root.entryCount[0];
-    Root.total_entry = 0;
+    Root.total_entry = level0->numEntries;
 
     p2AddrTr mTrace;
     unsigned int vAddr;
@@ -202,7 +202,7 @@ Root.page_size = (unsigned int)1 << (32-sum); // 2^offset bits is the page size
             ctr+=1;
         }
         if(strcmp(log_mode, "summary") == 0){
-            printf("in here\n");
+            //printf("in here\n");
             //table_entries(table, cursor);
             log_summary(Root.page_size, Root.cache_hit, Root.page_table_hit, ctr, Root.frame_count, Root.total_entry);
         }
@@ -216,6 +216,11 @@ Root.page_size = (unsigned int)1 << (32-sum); // 2^offset bits is the page size
             }
             insert_vpn2pfn(&Root, vAddr);
             ctr+=1;
+        }
+        if(strcmp(log_mode, "summary") == 0){
+            //printf("in here\n");
+            //table_entries(table, cursor);
+            log_summary(Root.page_size, Root.cache_hit, Root.page_table_hit, ctr, Root.frame_count, Root.total_entry);
         }
     }
 
