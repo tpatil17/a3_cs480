@@ -15,13 +15,25 @@ void FailSafe(){
     perror("Failed to allocate Memory");
     exit(EXIT_FAILURE);
 }
+/**
+ * @brief Allocate memory for the map struct
+ * 
+ *  
+ * @return Map* 
+ */
+Map* startMap(){
+    Map* map = (Map*)malloc(sizeof(map));
+    map->valid = 0;
 
-
+    return map;
+}
 
 // create an empty page table
 PageTable startPageTable(int lvls){
 
     PageTable root;
+    root.frame_count =0;
+    root.total_entry = 0;
     root.levelCount = lvls;
     root.bitMasks = (unsigned int*) malloc(sizeof(unsigned int)*lvls);
     if(root.bitMasks == NULL){
@@ -79,6 +91,15 @@ PageLevel* startPageLevel(int Lvl, PageTable* root, unsigned int arr_size){
     for(int i = 0; i < arr_size; i++){
         level->NextLevelPtr[i] = NULL;
     }
+    if(Lvl == root->levelCount-1){ // last level so gotta assign a pfn here
+        level->map = startMap(); //allocate memory
+        level->map->pfn = root->frame_count;
+        root->frame_count+=1;
+        level->map->valid = 1;
+    }else{
+        // just a level
+        level->map = NULL;
+    }
 
     return level; // return the PageLevel object with all set to NULL, this only allocates memory
 
@@ -96,6 +117,50 @@ unsigned int extractPageNumberFromAddress(unsigned int PageMask, unsigned int sh
 
 }
 
+Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr){
+    int curLvl = 0; // starts from the root
+    PageLevel* cur_pg = table->zeroPage;
+    while(curLvl < table->levelCount){
+        unsigned int ind = extractPageNumberFromAddress(table->bitMasks[curLvl], table->shift_array[curLvl], vAddr);
+        if(cur_pg->NextLevelPtr[ind] == NULL){
+            // if the vpn is not logged return NULL
+            return NULL;
+        }
+        cur_pg = cur_pg->NextLevelPtr[ind];// point the cursor to new page level
+        curLvl+=1; // next level for each valid entry
+    }// until the last level or node is reached
+    // if the entry is logged before return a pointer to its map
+    return cur_pg->map;
+
+
+}
+
+void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
+    if(lookup_vpn2pfn(table, vAddr) == NULL){
+        //create a new entry
+        int curLvl = 0; // start from root level
+        PageLevel* cursor = table->zeroPage;
+        while (curLvl < table->levelCount)
+        {   
+            unsigned int ind = extractPageNumberFromAddress(table->bitMasks[curLvl], table->shift_array[curLvl], vAddr);
+            if(cursor->NextLevelPtr[ind] == NULL){
+                // no entry for that index at that level
+                PageLevel* new_page = startPageLevel(curLvl, table, table->entryCount[curLvl]);
+                cursor->NextLevelPtr[ind] == new_page;
+                cursor = cursor->NextLevelPtr[ind];
+                table->total_entry+=1; // increase the number of page table entries
+                
+            }else{
+                // simply move on in levels
+                cursor = cursor->NextLevelPtr[ind];
+                
+            }
+            curLvl+=1;
+        }
+        
+    }
+    return;
+}
 // Traverse tree for a given page number, create new levels if not alredy created
 // Function below checks if at a given level the page it needs to go to is null, if null a new level is created
 

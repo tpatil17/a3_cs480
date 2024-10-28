@@ -21,4 +21,6 @@ int* processString(char* arr, int lvls);
 
 // count the number of levels specified
 int NumLvl(char* arr);
+
+unsigned int* offset(int* bit_arr, unsigned int vAddr, int lvls);
 #endif

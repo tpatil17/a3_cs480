@@ -6,6 +6,7 @@
 #include "BitMasker.h"
 #include "PageTableLevel.h"
 #include "log.h"
+#include "tracereader.h"
 
 #define NORMAL_EXIT 0
 #define READ_BUFFER 1024
@@ -155,17 +156,49 @@ int main(int argc, char* argv[]){
     PageTable Root = startPageTable(lvls); 
 
     // Initialize all table values
+    Root.levelCount = lvls;
     Root.bitMasks = masks;
     Root.shift_array = shiftSizes;
     Root.entryCount = ptrArraySizes;
-    printf("Root Table created with levels: %d\n", Root.levelCount);
+    //printf("Root Table created with levels: %d\n", Root.levelCount);
     // if -o is specified and bitmasks is the log mode, log the bitmasks and exit
     if (strcmp(log_mode, "bitmasks")==0){
-        printf("if condition for bitmasks passed\n");
+        //printf("if condition for bitmasks passed\n");
         log_bitmasks(lvls, Root.bitMasks);
         return 0;
     }
 
+//**********************************************************************************************
+// log bitmaks condition is take care off and a page table is created
+// Following lines will read in the trace file and create pages
+//**********************************************************************************************
+    PageLevel* level0 = startPageLevel(0, &Root, Root.entryCount[0]);
+
+    Root.zeroPage = level0;
+
+    p2AddrTr mTrace;
+    unsigned int vAddr;
+    if(n == 0){
+        // read all, the default value of n is set to 0 as a flag but when n is specified 0 will not be accepted
+        while(NextAddress(file, &mTrace)){
+            vAddr = mTrace.addr;
+
+            if(strcmp(log_mode, "offset") == 0){
+                hexnum(offset(bits_arr, vAddr, lvls));
+            }
+            
+            insert_vpn2pfn(&Root, vAddr); // asign a frame to a vpn that does not exist
+        }
+    }else{
+        while(NextAddress(file, &mTrace) & n > 0){
+            vAddr = mTrace.addr;
+
+            if(strcmp(log_mode, "offset") == 0){
+                hexnum(offset(bits_arr, vAddr, lvls));
+            }
+            insert_vpn2pfn(&Root, vAddr);
+        }
+    }
 
     
 return 0;
