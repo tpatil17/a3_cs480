@@ -150,17 +150,18 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
                 PageLevel* new_page = startPageLevel(curLvl, table, table->entryCount[curLvl]);
                 cursor->NextLevelPtr[ind] = new_page;
                 cursor = cursor->NextLevelPtr[ind];
-                table->total_entry+=1; // increase the number of page table entries
+                // increase the number of page table entries
                 
             }else{
                 // simply move on in levels
                 cursor = cursor->NextLevelPtr[ind];
-                table->page_table_hit+=1;
                 
             }
             curLvl+=1;
         }
         
+    }else{
+        table->page_table_hit+=1;
     }
     return;
 }
