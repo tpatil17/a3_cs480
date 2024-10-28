@@ -25,7 +25,7 @@ $(PROGRAM) : $(OBJS)
 	$(CC) -o $(PROGRAM) $(OBJS)
 
 main.o : main.c 
-	$(CC) $(CCFLAGS) main.c -lm
+	$(CC) $(CCFLAGS) main.c
 
 PageTableLevel.o : PageTableLevel.c PageTableLevel.h 
 	$(CC) $(CCFLAGS) PageTableLevel.c
