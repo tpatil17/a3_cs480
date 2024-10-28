@@ -205,7 +205,7 @@ Root.page_size = (unsigned int)1 << (32-sum); // 2^offset bits is the page size
 
             PageLevel* cursor = level0;
             PageTable* table = &Root;
-            table_entries(table, cursor);
+            //table_entries(table, cursor);
             log_summary(Root.page_size, Root.cache_hit, Root.page_table_hit, ctr, Root.frame_count, Root.total_entry);
         }
     }else{
