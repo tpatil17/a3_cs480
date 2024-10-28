@@ -91,5 +91,5 @@ unsigned int recordPageAccess(unsigned int addr, PageLevel* pgLvl);
 
 unsigned int* pageIndice(unsigned int* PageMasks, unsigned int* shiftSizes, unsigned int Addr, int lvls);
 
-unsigned int table_entries(PageTable* table, PageLevel* cursor);
+void table_entries(PageTable* table, PageLevel* cursor);
 #endif
