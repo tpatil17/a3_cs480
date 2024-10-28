@@ -186,17 +186,19 @@ int main(int argc, char* argv[]){
             if(strcmp(log_mode, "offset") == 0){
                 hexnum(offset(bits_arr, vAddr, lvls));
             }
-            
+
             insert_vpn2pfn(&Root, vAddr); // asign a frame to a vpn that does not exist
         }
     }else{
-        while(NextAddress(file, &mTrace) & n > 0){
+        int ctr = 0; // to count the number of addresses processed
+        while(NextAddress(file, &mTrace) & (ctr < n)){
             vAddr = mTrace.addr;
 
             if(strcmp(log_mode, "offset") == 0){
                 hexnum(offset(bits_arr, vAddr, lvls));
             }
             insert_vpn2pfn(&Root, vAddr);
+            ctr+=1;
         }
     }
 
