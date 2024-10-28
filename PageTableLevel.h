@@ -26,8 +26,10 @@ typedef struct PageTable{
     unsigned int *bitMasks; // pointer to an array of bitmasks
     unsigned int *shift_array; //bits to shift at each level
     unsigned int *entryCount; //number of entries at each level
-    unsigned int total_entry; // the total page table entries created
+    unsigned long total_entry; // the total page table entries created
     unsigned int page_size; // size of the page 
+    unsigned int cache_hit; // number of times chache is hit
+    unsigned int page_table_hit; // number of times a page table is hit
     PageLevel* zeroPage; // pointer to the first pagelevel structure (level 0)
 
 }PageTable;

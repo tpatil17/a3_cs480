@@ -102,14 +102,7 @@ int NumLvl(char* arr){
 
 }
 
-unsigned int offset(int* bit_arr, unsigned int vAddr, int lvls){
-    int i = 0;
-    int sum = 0; // to calculat the offset bits
-    while(i < lvls){
-        sum+= bit_arr[i];
-        i+=1;
-    }
-
+unsigned int offset(int sum, unsigned int vAddr){
     unsigned int base = 0xFFFFFFFF;
     //printf("the sum of all bits is: %d\n", sum);
     

@@ -34,6 +34,8 @@ PageTable startPageTable(int lvls){
     PageTable root;
     root.frame_count =0;
     root.total_entry = 0;
+    root.page_table_hit = 0;
+    root.cache_hit = 0;
     root.levelCount = lvls;
     root.bitMasks = (unsigned int*) malloc(sizeof(unsigned int)*lvls);
     if(root.bitMasks == NULL){
@@ -153,6 +155,7 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
             }else{
                 // simply move on in levels
                 cursor = cursor->NextLevelPtr[ind];
+                table->page_table_hit+=1;
                 
             }
             curLvl+=1;

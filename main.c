@@ -7,6 +7,7 @@
 #include "PageTableLevel.h"
 #include "log.h"
 #include "tracereader.h"
+#include<math.h>
 
 #define NORMAL_EXIT 0
 #define READ_BUFFER 1024
@@ -168,6 +169,13 @@ int main(int argc, char* argv[]){
         return 0;
     }
 
+//sum of the bits in the bit array
+int sum = 0;
+for(int i = 0; i < lvls; i+=1){
+    sum += bits_arr[i];
+}
+Root.page_size = (unsigned int)pow(2, (32 -sum)); // size of the page is 2^offset_bits
+
 //**********************************************************************************************
 // log bitmaks condition is take care off and a page table is created
 // Following lines will read in the trace file and create pages
@@ -179,15 +187,20 @@ int main(int argc, char* argv[]){
     p2AddrTr mTrace;
     unsigned int vAddr;
     if(n == 0){
+        unsigned int ctr = 0;
         // read all, the default value of n is set to 0 as a flag but when n is specified 0 will not be accepted
         while(NextAddress(file, &mTrace)){
             vAddr = mTrace.addr;
 
             if(strcmp(log_mode, "offset") == 0){
-                hexnum(offset(bits_arr, vAddr, lvls));
+                hexnum(offset(sum, vAddr));
             }
 
             insert_vpn2pfn(&Root, vAddr); // asign a frame to a vpn that does not exist
+            ctr+=1;
+        }
+        if(strcmp(log_mode, "summary") == 0){
+            log_summary(Root.page_size, Root.cache_hit, Root.page_table_hit, ctr, Root.frame_count, Root.total_entry);
         }
     }else{
         int ctr = 0; // to count the number of addresses processed
@@ -195,7 +208,7 @@ int main(int argc, char* argv[]){
             vAddr = mTrace.addr;
 
             if(strcmp(log_mode, "offset") == 0){
-                hexnum(offset(bits_arr, vAddr, lvls));
+                hexnum(offset(sum, vAddr));
             }
             insert_vpn2pfn(&Root, vAddr);
             ctr+=1;
