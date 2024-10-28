@@ -151,11 +151,11 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
                 cursor->NextLevelPtr[ind] = new_page;
                 cursor = cursor->NextLevelPtr[ind];
                 // increase the number of page table entries
-                table->total_entry+=1;
+                cursor->numEntries+=1;
             }else{
                 // simply move on in levels
                 cursor = cursor->NextLevelPtr[ind];
-                table->total_entry+=1;
+                
             }
             curLvl+=1;
         }
@@ -251,4 +251,17 @@ unsigned int* pageIndice(unsigned int* PageMasks, unsigned int* shiftSizes, unsi
         retArr[i] = extractPageNumberFromAddress(PageMasks[i], shiftSizes[i], Addr);
     }
     return retArr;
+}
+
+
+void table_entries(PageTable* table, PageLevel* cursor){
+    // Using dfs to recurisvely visit each node and calculate the table entries
+    table->total_entry += cursor->numEntries;
+    for(int i = 0; i < table->entryCount[cursor->lvl]; i+=1){
+        
+        if(cursor->NextLevelPtr[i] != NULL){
+
+            table_entries(table, cursor->NextLevelPtr[i]);
+        }
+    }
 }

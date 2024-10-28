@@ -40,6 +40,7 @@ typedef struct PageTable{
 struct PageLevel{
 
     int numAccess; // number of time the level is accessed
+    unsigned int numEntries; // number of non null entries on each level
     int lvl; // the current level
     PageLevel** NextLevelPtr; // array of pointers to next level(depth) of pageLvl
     PageTable* root; // pointer to the root/PageTable, convinient to reference attributes like bitmasks
@@ -90,5 +91,5 @@ unsigned int recordPageAccess(unsigned int addr, PageLevel* pgLvl);
 
 unsigned int* pageIndice(unsigned int* PageMasks, unsigned int* shiftSizes, unsigned int Addr, int lvls);
 
-
+unsigned int table_entries(PageTable* table, PageLevel* cursor);
 #endif

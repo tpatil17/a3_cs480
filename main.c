@@ -183,6 +183,7 @@ Root.page_size = (unsigned int)1 << (32-sum); // 2^offset bits is the page size
     PageLevel* level0 = startPageLevel(0, &Root, Root.entryCount[0]);
 
     Root.zeroPage = level0;
+    level0->numEntries = Root.entryCount[0];
 
     p2AddrTr mTrace;
     unsigned int vAddr;
@@ -200,7 +201,8 @@ Root.page_size = (unsigned int)1 << (32-sum); // 2^offset bits is the page size
             ctr+=1;
         }
         if(strcmp(log_mode, "summary") == 0){
-            
+
+            table_entries(&Root, level0);
             log_summary(Root.page_size, Root.cache_hit, Root.page_table_hit, ctr, Root.frame_count, Root.total_entry);
         }
     }else{
