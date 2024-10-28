@@ -200,11 +200,8 @@ Root.page_size = (unsigned int)1 << (32-sum); // 2^offset bits is the page size
             ctr+=1;
         }
         if(strcmp(log_mode, "summary") == 0){
-            unsigned int table_entrie=0;
-            for(int i = 0; i < lvls; i+=1){
-                table_entrie += Root.entryCount[i];
-            }
-            log_summary(Root.page_size, Root.cache_hit, Root.page_table_hit, ctr, Root.frame_count, table_entrie);
+            
+            log_summary(Root.page_size, Root.cache_hit, Root.page_table_hit, ctr, Root.frame_count, Root.total_entry);
         }
     }else{
         int ctr = 0; // to count the number of addresses processed
