@@ -11,7 +11,7 @@
 # Specify compiler
 CC = gcc
 # Compiler flags, if you want debug info, add -g
-CCFLAGS = -std=c11 -g -Wall -c -lm
+CCFLAGS = -std=c11 -g -Wall -c
 CFLAGS = -g -c
 
 # object files
@@ -25,7 +25,7 @@ $(PROGRAM) : $(OBJS)
 	$(CC) -o $(PROGRAM) $(OBJS)
 
 main.o : main.c 
-	$(CC) $(CCFLAGS) main.c
+	$(CC) $(CCFLAGS) main.c -lm
 
 PageTableLevel.o : PageTableLevel.c PageTableLevel.h 
 	$(CC) $(CCFLAGS) PageTableLevel.c
