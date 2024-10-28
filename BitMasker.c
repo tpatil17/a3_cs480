@@ -111,8 +111,8 @@ unsigned int offset(int* bit_arr, unsigned int vAddr, int lvls){
     }
 
     unsigned int base = 0xFFFFFFFF;
-    printf("the sum of all bits is: %d\n", sum);
-    //assuming a 32 bit address 
-    int shift = 32 - sum;
+    //printf("the sum of all bits is: %d\n", sum);
+    
+    int shift = sum;
     return (vAddr & (base >> shift));
 }
