@@ -174,7 +174,7 @@ int sum = 0;
 for(int i = 0; i < lvls; i+=1){
     sum += bits_arr[i];
 }
-Root.page_size = (unsigned int)pow(2, (32 -sum)); // size of the page is 2^offset_bits
+Root.page_size = (unsigned int)pow(2, 32-sum);
 
 //**********************************************************************************************
 // log bitmaks condition is take care off and a page table is created

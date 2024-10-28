@@ -11,7 +11,7 @@
 # Specify compiler
 CC = gcc
 # Compiler flags, if you want debug info, add -g
-CCFLAGS = -std=c11 -g -Wall -c
+CCFLAGS = -std=c11 -g -Wall -c -lm
 CFLAGS = -g -c
 
 # object files
