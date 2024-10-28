@@ -4,6 +4,8 @@
 #include<getopt.h>
 #include<unistd.h>
 #include "BitMasker.h"
+#include "PageTableLevel.h"
+#include "log.h"
 
 #define NORMAL_EXIT 0
 #define READ_BUFFER 1024
@@ -82,6 +84,7 @@ int main(int argc, char* argv[]){
     lvls = lvl_ctr;// calculate the depth
     if(total_bits > max_bits){
         printf("Too many bits used in page tables\n");
+        exit(NORMAL_EXIT);
     }
 
 
@@ -120,5 +123,48 @@ int main(int argc, char* argv[]){
     }
     // Get in the structure specifics
 
+//**********************************************************************
+// once the input has been processed, the following section will create
+// a page table based on the bits per level information
+//**********************************************************************
+
+    int* treeScheme = bits_arr; // array of bit counts per level
+
+
+    // Base on the given scheme calculate masks and shift sizes for each level
+    unsigned int* masks = GenerateMask(lvls, treeScheme);
+    unsigned int* shiftSizes = GetShiftSizes(treeScheme, lvls);
+    unsigned int* ptrArraySizes = (unsigned int*)malloc(sizeof(unsigned int)*lvls); // the array size for each page level
+
+    if(ptrArraySizes == NULL){
+        perror("Memory allocation failed\n");
+    }
+    // Explicit declaration of ptrArray
+    for(int i = 0; i < lvls; i++){
+        ptrArraySizes[i] = 0;
+    }
+    // Get the entry count size for each level
+    for(int i = 0; i < lvls; i++){
+        // 1 << x, where x is an intiger value, resluts in 1*(2^x)
+        // Hence in our case 1 << (number of bits assigned for a level) will yield 2^bits or the size of nextPtrarray
+        ptrArraySizes[i] = 1 << treeScheme[i]; 
+
+    }
+
+    // Start the Page Table
+    PageTable Root = startPageTable(lvls); 
+
+    // Initialize all table values
+    Root.bitMasks = masks;
+    Root.shift_array = shiftSizes;
+    Root.entryCount = ptrArraySizes;
+    // if -o is specified and bitmasks is the log mode, log the bitmasks and exit
+    if (strcmp(log_mode, "bitmasks")==0){
+        log_bitmasks(lvl_ctr, Root.bitMasks);
+        return 0;
+    }
+
+
+    
 return 0;
 }

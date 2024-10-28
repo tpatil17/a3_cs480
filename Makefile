@@ -18,7 +18,7 @@ CFLAGS = -g -c
 OBJS = main.o BitMasker.o #PageTableLevel.o BitMasker.o tracereader.o main.o log.o
 
 # Program name
-PROGRAM = pagetrace
+PROGRAM = pagingwithatc
 
 # The program depends upon its object files
 $(PROGRAM) : $(OBJS)
