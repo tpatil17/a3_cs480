@@ -158,10 +158,11 @@ int main(int argc, char* argv[]){
     Root.bitMasks = masks;
     Root.shift_array = shiftSizes;
     Root.entryCount = ptrArraySizes;
+    printf("Root Table created with levels: %d\n", Root.levelCount);
     // if -o is specified and bitmasks is the log mode, log the bitmasks and exit
     if (strcmp(log_mode, "bitmasks")==0){
         printf("if condition for bitmasks passed\n");
-        log_bitmasks(lvl_ctr, Root.bitMasks);
+        log_bitmasks(lvls, Root.bitMasks);
         return 0;
     }
 
