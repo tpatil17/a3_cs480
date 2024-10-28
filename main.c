@@ -184,6 +184,7 @@ Root.page_size = (unsigned int)1 << (32-sum); // 2^offset bits is the page size
 
     Root.zeroPage = level0;
     level0->numEntries = Root.entryCount[0];
+    Root.total_entry = 0;
 
     p2AddrTr mTrace;
     unsigned int vAddr;
