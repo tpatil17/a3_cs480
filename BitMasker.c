@@ -102,7 +102,7 @@ int NumLvl(char* arr){
 
 }
 
-unsigned int* offset(int* bit_arr, unsigned int vAddr, int lvls){
+unsigned int offset(int* bit_arr, unsigned int vAddr, int lvls){
     int i = 0;
     int sum = 0; // to calculat the offset bits
     while(i < lvls){

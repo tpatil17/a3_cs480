@@ -146,7 +146,7 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
             if(cursor->NextLevelPtr[ind] == NULL){
                 // no entry for that index at that level
                 PageLevel* new_page = startPageLevel(curLvl, table, table->entryCount[curLvl]);
-                cursor->NextLevelPtr[ind] == new_page;
+                cursor->NextLevelPtr[ind] = new_page;
                 cursor = cursor->NextLevelPtr[ind];
                 table->total_entry+=1; // increase the number of page table entries
                 
