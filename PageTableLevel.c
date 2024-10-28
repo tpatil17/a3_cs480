@@ -155,7 +155,7 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
             }else{
                 // simply move on in levels
                 cursor = cursor->NextLevelPtr[ind];
-                
+                table->total_entry+=1;
             }
             curLvl+=1;
         }
