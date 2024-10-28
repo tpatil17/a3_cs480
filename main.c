@@ -160,6 +160,7 @@ int main(int argc, char* argv[]){
     Root.entryCount = ptrArraySizes;
     // if -o is specified and bitmasks is the log mode, log the bitmasks and exit
     if (strcmp(log_mode, "bitmasks")==0){
+        printf("if condition for bitmasks passed\n");
         log_bitmasks(lvl_ctr, Root.bitMasks);
         return 0;
     }
