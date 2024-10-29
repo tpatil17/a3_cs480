@@ -162,7 +162,7 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
                 cursor->numEntries+=1;
                 if(curLvl != 0){
                     if(curLvl == table->levelCount-1){
-                        //table->total_entry+= 0;
+                        table->total_entry+= 1;
                     }else{
                         table->total_entry+= table->entryCount[curLvl+1];
                     }
