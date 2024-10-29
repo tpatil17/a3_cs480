@@ -159,7 +159,7 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
                     table->frame_count+=1;
                 }else{
                     new_page = startPageLevel(curLvl, table, table->entryCount[curLvl+1]);
-                    table->frame_count += table->entryCount[curLvl+1];
+                    table->total_entry += table->entryCount[curLvl+1];
                 }
                 
                 cursor->NextLevelPtr[ind] = new_page;
