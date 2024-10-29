@@ -162,9 +162,11 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
                 cursor->numEntries+=1;
                 if(curLvl != 0){
                     if(curLvl == table->levelCount-1){
-                        table->total_entry+= 1;
+                        //table->total_entry+= 1;
                     }else{
                         table->total_entry+= table->entryCount[curLvl+1];
+                        printf("number of non null entries at level %d ", curLvl);
+                        printf(" is : %u", cursor->numEntries);
                     }
                   
                 }
