@@ -97,7 +97,7 @@ PageLevel* startPageLevel(int Lvl, PageTable* root, unsigned int arr_size){
         level->map = startMap(); //allocate memory
         level->map->pfn = root->frame_count;
         root->frame_count+=1;
-        root->total_entry+=1;
+        
         level->map->valid = 1;
     }else{
         // just a level
@@ -148,13 +148,13 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
             unsigned int ind = extractPageNumberFromAddress(table->bitMasks[curLvl], table->shift_array[curLvl], vAddr);
             if(cursor->NextLevelPtr[ind] == NULL){
                 // no entry for that index at that level
-                PageLevel* new_page = startPageLevel(curLvl, table, table->entryCount[curLvl]);
+                PageLevel* new_page = startPageLevel(curLvl, table, table->entryCount[curLvl+1]);
                 cursor->NextLevelPtr[ind] = new_page;
                 cursor = cursor->NextLevelPtr[ind];
                 // increase the number of page table entries
                 cursor->numEntries+=1;
                 if(curLvl != 0){
-                  table->total_entry+=1;
+                  table->total_entry+= table->entryCount[curLvl+1];
                 }
                 
             }else{
