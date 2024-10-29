@@ -30,6 +30,7 @@ typedef struct PageTable{
     unsigned int page_size; // size of the page 
     unsigned int cache_hit; // number of times chache is hit
     unsigned int page_table_hit; // number of times a page table is hit
+    int bit_sum;
     PageLevel* zeroPage; // pointer to the first pagelevel structure (level 0)
 
 }PageTable;
@@ -92,4 +93,6 @@ unsigned int recordPageAccess(unsigned int addr, PageLevel* pgLvl);
 unsigned int* pageIndice(unsigned int* PageMasks, unsigned int* shiftSizes, unsigned int Addr, int lvls);
 
 void table_entries(PageTable* table, PageLevel* cursor);
+
+void va2pa(PageTable* table ,unsigned int Vaddr);
 #endif

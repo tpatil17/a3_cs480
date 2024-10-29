@@ -8,6 +8,8 @@
 #include<string.h>
 #include<stdlib.h>
 #include "PageTableLevel.h"
+#include "BitMasker.h"
+#include "log.h"
 
 
 // The Fail safe, to prevent abrupt system closure
@@ -37,6 +39,7 @@ PageTable startPageTable(int lvls){
     root.page_table_hit = 0;
     root.cache_hit = 0;
     root.levelCount = lvls;
+    root.bit_sum = 0;
     root.bitMasks = (unsigned int*) malloc(sizeof(unsigned int)*lvls);
     if(root.bitMasks == NULL){
         FailSafe();
@@ -160,8 +163,7 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
                 cursor = cursor->NextLevelPtr[ind];
                 // increase the number of page table entries
                 cursor->numEntries+=1;
-                printf("number of non null entries at level %d ", curLvl);
-                printf(" is : %u\n", cursor->numEntries);
+                
                 if(curLvl != 0){
                     if(curLvl == table->levelCount-1){
                         //table->total_entry+= 1;
@@ -285,3 +287,16 @@ void table_entries(PageTable* table, PageLevel* cursor){
         }
     }
 }
+
+void va2pa(PageTable*table, unsigned int Vaddr){
+    // get the map of vpn to pfn
+    Map* frm_info =lookup_vpn2pfn(table, Vaddr);
+    // convert frame number to physical addr
+
+    unsigned int off = offset(table->bit_sum, Vaddr); // get the offset
+    int of_bit = 32 - table->bit_sum;
+    unsigned int physical_addr = (frm_info->pfn << of_bit) + off;
+    log_virtualAddr2physicalAddr(Vaddr, physical_addr);
+    
+}
+    

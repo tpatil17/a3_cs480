@@ -175,6 +175,7 @@ for(int i = 0; i < lvls; i+=1){
     sum += bits_arr[i];
 }
 Root.page_size = (unsigned int)1 << (32-sum); // 2^offset bits is the page size
+Root.bit_sum = sum;
 
 
 //**********************************************************************************************
@@ -200,6 +201,9 @@ Root.page_size = (unsigned int)1 << (32-sum); // 2^offset bits is the page size
             }
 
             insert_vpn2pfn(&Root, vAddr); // asign a frame to a vpn that does not exist
+            if(strcmp(log_mode, "va2pa") == 0){
+                va2pa(&Root, vAddr);
+            }
             ctr+=1;
         }
         if(strcmp(log_mode, "summary") == 0){
@@ -207,6 +211,7 @@ Root.page_size = (unsigned int)1 << (32-sum); // 2^offset bits is the page size
             
             log_summary(Root.page_size, Root.cache_hit, Root.page_table_hit, ctr, Root.frame_count, Root.total_entry);
         }
+        
     }else{
         int ctr = 0; // to count the number of addresses processed
         while(NextAddress(file, &mTrace) & (ctr < n)){
@@ -216,6 +221,9 @@ Root.page_size = (unsigned int)1 << (32-sum); // 2^offset bits is the page size
                 hexnum(offset(sum, vAddr));
             }
             insert_vpn2pfn(&Root, vAddr);
+            if(strcmp(log_mode, "va2pa") == 0){
+                va2pa(&Root, vAddr);
+            }
             ctr+=1;
         }
         if(strcmp(log_mode, "summary") == 0){
