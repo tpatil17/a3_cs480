@@ -236,7 +236,7 @@ Root.bit_sum = sum;
         }
         if(strcmp(log_mode, "summary") == 0){
             //printf("in here\n");
-           
+            Root.total_entry+= Root.entryCount[0];
             log_summary(Root.page_size, Root.cache_hit, Root.page_table_hit, ctr, Root.frame_count, Root.total_entry);
         }
     }
