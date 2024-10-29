@@ -90,7 +90,7 @@ PageLevel* startPageLevel(int Lvl, PageTable* root, unsigned int arr_size){
     //********************************************
 
     level->NextLevelPtr = (PageLevel**)malloc(sizeof(PageLevel*)*arr_size);
-    root->total_entry+=arr_size;
+    //root->total_entry+=arr_size;
     if (level->NextLevelPtr == NULL){
         FailSafe();
     }
@@ -155,25 +155,17 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
                 PageLevel* new_page;
                 if(curLvl == table->levelCount -1){
                     new_page = startPageLevel(curLvl, table, 0);
+                    table->total_entry += 0;
                     table->frame_count+=1;
                 }else{
                     new_page = startPageLevel(curLvl, table, table->entryCount[curLvl+1]);
+                    table->frame_count += table->entryCount[curLvl+1];
                 }
                 
                 cursor->NextLevelPtr[ind] = new_page;
                 cursor = cursor->NextLevelPtr[ind];
                 // increase the number of page table entries
                 cursor->numEntries+=1;
-                
-                if(curLvl != 0){
-                    if(curLvl == table->levelCount-1){
-                        //table->total_entry+= 1;
-                    }else{
-                        //table->total_entry+= table->entryCount[curLvl+1];
-                        
-                    }
-                  
-                }
                 
             }else{
                 // simply move on in levels
