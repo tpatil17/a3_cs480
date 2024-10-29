@@ -186,7 +186,7 @@ Root.bit_sum = sum;
 
     Root.zeroPage = level0;
     level0->numEntries = Root.entryCount[0];
-    Root.total_entry = Root.entryCount[0]; // start with all entries at level 0
+    //Root.total_entry = Root.entryCount[0]; // start with all entries at level 0
 
     p2AddrTr mTrace;
     unsigned int vAddr;
