@@ -299,4 +299,12 @@ void va2pa(PageTable*table, unsigned int Vaddr){
     log_virtualAddr2physicalAddr(Vaddr, physical_addr);
     
 }
+
+void vpn2pfn(PageTable* table, unsigned int Vaddr, unsigned int* arr){
+    Map* info = lookup_vpn2pfn(table, Vaddr);
+
+    log_pagemapping(table->levelCount, arr, info->pfn);
+
+
+}
     

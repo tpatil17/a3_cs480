@@ -204,6 +204,10 @@ Root.bit_sum = sum;
             if(strcmp(log_mode, "va2pa") == 0){
                 va2pa(&Root, vAddr);
             }
+            if(strcmp(log_mode, "vpn2pfn") == 0){
+                unsigned int *ind_arr = pageIndice(Root.bitMasks, Root.shift_array, vAddr, lvls);
+                vpn2pfn(&Root, vAddr, ind_arr);
+            }
             ctr+=1;
         }
         if(strcmp(log_mode, "summary") == 0){

@@ -95,4 +95,6 @@ unsigned int* pageIndice(unsigned int* PageMasks, unsigned int* shiftSizes, unsi
 void table_entries(PageTable* table, PageLevel* cursor);
 
 void va2pa(PageTable* table ,unsigned int Vaddr);
+
+void vpn2pfn(PageTable* table, unsigned int Vaddr, unsigned int* arr);
 #endif
