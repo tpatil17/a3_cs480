@@ -96,7 +96,7 @@ PageLevel* startPageLevel(int Lvl, PageTable* root, unsigned int arr_size){
     if(Lvl == root->levelCount-1){ // last level so gotta assign a pfn here
         level->map = startMap(); //allocate memory
         level->map->pfn = root->frame_count;
-        root->frame_count+=1;
+        
         
         level->map->valid = 1;
     }else{
@@ -151,6 +151,7 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
                 PageLevel* new_page;
                 if(curLvl == table->levelCount -1){
                     new_page = startPageLevel(curLvl, table, 0);
+                    table->frame_count+=1;
                 }else{
                     new_page = startPageLevel(curLvl, table, table->entryCount[curLvl+1]);
                 }
