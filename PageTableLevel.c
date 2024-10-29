@@ -97,6 +97,7 @@ PageLevel* startPageLevel(int Lvl, PageTable* root, unsigned int arr_size){
         level->map = startMap(); //allocate memory
         level->map->pfn = root->frame_count;
         root->frame_count+=1;
+        root->total_entry+=1;
         level->map->valid = 1;
     }else{
         // just a level
