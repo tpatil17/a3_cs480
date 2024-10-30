@@ -15,7 +15,7 @@ CCFLAGS = -std=c11 -g -Wall -c
 CFLAGS = -g -c
 
 # object files
-OBJS = main.o BitMasker.o log.o PageTableLevel.o tracereader.o
+OBJS = main.o BitMasker.o log.o PageTableLevel.o tracereader.o tlb.o
 
 # Program name
 PROGRAM = pagingwithatc
@@ -38,6 +38,8 @@ tracereader.o : tracereader.c tracereader.h
 
 log.o : log.c log.h
 	$(CC) $(CCFLAGS) log.c
+tlb.o : tlb.c tlb.h
+	$(CC) $(CCFLAGS) tlb.c
 
 # Once things work, people frequently delete their object files.
 # If you use "make clean", this will do it for you.

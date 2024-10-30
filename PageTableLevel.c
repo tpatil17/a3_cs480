@@ -10,6 +10,7 @@
 #include "PageTableLevel.h"
 #include "BitMasker.h"
 #include "log.h"
+#include "tlb.h"
 
 
 // The Fail safe, to prevent abrupt system closure
@@ -124,11 +125,23 @@ unsigned int extractPageNumberFromAddress(unsigned int PageMask, unsigned int sh
 
 }
 
-Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr){
+Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
     int curLvl = 0; // starts from the root
+
     PageLevel* cur_pg = table->zeroPage;
+    // look up the cache first
+    unsigned int *ret = pageIndice(table->bitMasks, table->shift_array, vAddr, table->levelCount);
+    // the above is a list of ints vpn 
+        // compare it to the vpn arr in cache
+        if(lookup_Cache(cache, ret)!= NULL){
+            table->cache_hit+=1;
+            return lookup_Cache(cache, ret); // if hit return else move on
+        }
+        // if cache is missed
     while(curLvl < table->levelCount){
+        
         unsigned int ind = extractPageNumberFromAddress(table->bitMasks[curLvl], table->shift_array[curLvl], vAddr);
+        
         if(cur_pg->NextLevelPtr[ind] == NULL){
             // if the vpn is not logged return NULL
             return NULL;
@@ -137,24 +150,35 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr){
         curLvl+=1; // next level for each valid entry
     }// until the last level or node is reached
     // if the entry is logged before return a pointer to its map
+    // if cache is missed but page is hit push the recent entry to the cache
+    Node* new = (Node*)malloc(sizeof(Node));
+    new->vpn = ret;
+    new->info = cur_pg->map;
+    push(cache,new);
+    table->page_table_hit+=1;
     return cur_pg->map;
 
 
 }
 
-void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
-    if(lookup_vpn2pfn(table, vAddr) == NULL){
+void insert_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
+    if(lookup_vpn2pfn(table, vAddr, cache) == NULL){
         //create a new entry
         int curLvl = 0; // start from root level
         PageLevel* cursor = table->zeroPage;
+        unsigned int *ret = (unsigned int *)malloc(sizeof(unsigned int)*table->levelCount);
         while (curLvl < table->levelCount)
         {   
             unsigned int ind = extractPageNumberFromAddress(table->bitMasks[curLvl], table->shift_array[curLvl], vAddr);
+            ret[curLvl] = ind;
             if(cursor->NextLevelPtr[ind] == NULL){
                 // no entry for that index at that level
                 PageLevel* new_page;
                 if(curLvl == table->levelCount -1){
                     new_page = startPageLevel(curLvl, table, 0);
+                    // add to cache
+                    Node* new = StartNode(ret, new_page->map);
+                    push(cache, new);
                     table->total_entry += 0;
                     table->frame_count+=1;
                 }else{
@@ -177,9 +201,8 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr){
             curLvl+=1;
         }
         
-    }else{
-        table->page_table_hit+=1;
     }
+
     return;
 }
 // Traverse tree for a given page number, create new levels if not alredy created
@@ -283,9 +306,9 @@ void table_entries(PageTable* table, PageLevel* cursor){
     }
 }
 
-void va2pa(PageTable*table, unsigned int Vaddr){
+void va2pa(PageTable*table, unsigned int Vaddr, Cache* cache){
     // get the map of vpn to pfn
-    Map* frm_info =lookup_vpn2pfn(table, Vaddr);
+    Map* frm_info =lookup_vpn2pfn(table, Vaddr, cache);
     // convert frame number to physical addr
 
     unsigned int off = offset(table->bit_sum, Vaddr); // get the offset
@@ -295,8 +318,8 @@ void va2pa(PageTable*table, unsigned int Vaddr){
     
 }
 
-void vpn2pfn(PageTable* table, unsigned int Vaddr, unsigned int* arr){
-    Map* info = lookup_vpn2pfn(table, Vaddr);
+void vpn2pfn(PageTable* table, unsigned int Vaddr, unsigned int* arr, Cache* cache){
+    Map* info = lookup_vpn2pfn(table, Vaddr, cache);
 
     log_pagemapping(table->levelCount, arr, info->pfn);
 

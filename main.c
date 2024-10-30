@@ -8,6 +8,7 @@
 #include "log.h"
 #include "tracereader.h"
 #include<math.h>
+#include "tlb.h"
 
 #define NORMAL_EXIT 0
 #define READ_BUFFER 1024
@@ -176,8 +177,11 @@ for(int i = 0; i < lvls; i+=1){
 }
 Root.page_size = (unsigned int)1 << (32-sum); // 2^offset bits is the page size
 Root.bit_sum = sum;
-
-
+//**********************************************************************************************
+// Create a tlb cache of size table size
+// 
+//**********************************************************************************************
+Cache* tlb_cache = createCache(tlb_sz); // create a cache and set its max capacity
 //**********************************************************************************************
 // log bitmaks condition is take care off and a page table is created
 // Following lines will read in the trace file and create pages
@@ -200,13 +204,13 @@ Root.bit_sum = sum;
                 hexnum(offset(sum, vAddr));
             }
 
-            insert_vpn2pfn(&Root, vAddr); // asign a frame to a vpn that does not exist
+            insert_vpn2pfn(&Root, vAddr, tlb_cache); // asign a frame to a vpn that does not exist
             if(strcmp(log_mode, "va2pa") == 0){
-                va2pa(&Root, vAddr);
+                va2pa(&Root, vAddr, tlb_cache);
             }
             if(strcmp(log_mode, "vpn2pfn") == 0){
                 unsigned int *ind_arr = pageIndice(Root.bitMasks, Root.shift_array, vAddr, lvls);
-                vpn2pfn(&Root, vAddr, ind_arr);
+                vpn2pfn(&Root, vAddr, ind_arr, tlb_cache);
             }
             ctr+=1;
         }
@@ -224,13 +228,13 @@ Root.bit_sum = sum;
             if(strcmp(log_mode, "offset") == 0){
                 hexnum(offset(sum, vAddr));
             }
-            insert_vpn2pfn(&Root, vAddr);
+            insert_vpn2pfn(&Root, vAddr, tlb_cache);
             if(strcmp(log_mode, "va2pa") == 0){
-                va2pa(&Root, vAddr);
+                va2pa(&Root, vAddr, tlb_cache);
             }
             if(strcmp(log_mode, "vpn2pfn") == 0){
                 unsigned int *ind_arr = pageIndice(Root.bitMasks, Root.shift_array, vAddr, lvls);
-                vpn2pfn(&Root, vAddr, ind_arr);
+                vpn2pfn(&Root, vAddr, ind_arr, tlb_cache);
             }
             ctr+=1;
         }

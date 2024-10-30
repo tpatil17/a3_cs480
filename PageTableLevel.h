@@ -73,7 +73,7 @@ unsigned int extractPageNumberFromAddress(unsigned int PageMask, unsigned int sh
  * @param vAddr the vpn to traverse
  * @return Map* pointer to a map with corresponding fram number
  */
-Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr);
+Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache);
 /**
  * @brief Given a VPN if the entry does not exist create it and assign it a frame
  * 
@@ -81,7 +81,7 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr);
  * @param vAddr 
  * @param frame 
  */
-void insert_vpn2pfn(PageTable* table, unsigned int vAddr);
+void insert_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache);
 // Traverse tree for a given page number, create new levels if not alredy created
 // Function below checks if at a given level the page it needs to go to is null, if null a new level is created
 
@@ -94,7 +94,7 @@ unsigned int* pageIndice(unsigned int* PageMasks, unsigned int* shiftSizes, unsi
 
 void table_entries(PageTable* table, PageLevel* cursor);
 
-void va2pa(PageTable* table ,unsigned int Vaddr);
+void va2pa(PageTable* table ,unsigned int Vaddr, Cache* cache);
 
-void vpn2pfn(PageTable* table, unsigned int Vaddr, unsigned int* arr);
+void vpn2pfn(PageTable* table, unsigned int Vaddr, unsigned int* arr, Cache* cache);
 #endif
