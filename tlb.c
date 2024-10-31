@@ -95,12 +95,15 @@ void push(Cache* cache, Node* node) {
         //printf("first entry in the cache\n");
         cache->head = node;
         cache->tail = node;
+        node->next = NULL;
+        node->prev = NULL;
     }
     else{
         //printf("regular entry\n");
         cache->tail->next = node;
         node->prev = cache->tail;
         cache->tail = node;
+        node->next = NULL; // no one after the tail
 
     }
 
@@ -121,7 +124,7 @@ Node* lookup_Cache(Cache* cache, unsigned int* vpn, unsigned int lvls) {
         if(jump == 0){
             //cache hit
             // swap the current node to the end and update the latest used vpn
-            //printf("match found in cache\n");
+            printf("match found in cache\n");
             pop(cache, temp);
             push(cache, temp);
             return temp;

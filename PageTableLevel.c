@@ -200,7 +200,7 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
         }
         
     }
-
+    printf("address processing complete\n");
     return;
 }
 // Traverse tree for a given page number, create new levels if not alredy created
