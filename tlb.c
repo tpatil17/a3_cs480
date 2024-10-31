@@ -120,6 +120,9 @@ Node* lookup_Cache(Cache* cache, unsigned int* vpn, unsigned int lvls) {
     Node* temp = NULL;
     temp = cache->head;
     while(temp != NULL){
+        printf("comparting the following arrays\n");
+        log_pagemapping(lvls, vpn, temp->info->pfn);
+        log_pagemapping(lvls, temp->vpn, temp->info);
         int jump = compArr(temp->vpn, vpn, lvls);
         if(jump == 0){
             //cache hit
@@ -140,6 +143,7 @@ Node* lookup_Cache(Cache* cache, unsigned int* vpn, unsigned int lvls) {
 int compArr(unsigned int* arr1, unsigned int* arr2, unsigned int lvls){
     
     int ctr = 0;
+    
     
     while(ctr < lvls){
         if(arr1[ctr] != arr2[ctr]){

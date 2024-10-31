@@ -149,6 +149,8 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
     Node* new = StartNode(ret, cur_pg->map);
     printf("page hit so pushing frame %d\n", new->info->pfn);
     push(cache,new);
+    printf("address processing complete\n");
+   
     table->page_table_hit+=1;
     return cur_pg->map;
 
@@ -200,7 +202,6 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
         }
         
     }
-    printf("address processing complete\n");
     return;
 }
 // Traverse tree for a given page number, create new levels if not alredy created
