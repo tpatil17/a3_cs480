@@ -102,7 +102,8 @@ void push(Cache* cache, Node* node) {
 // Utility to print cache contents
 Node* lookup_Cache(Cache* cache, unsigned int* vpn, unsigned int lvls) {
     
-    Node* temp = cache->head;
+    Node* temp = NULL;
+    temp = cache->head;
     while(temp != NULL){
         if(compArr(temp->vpn, vpn, lvls) == 0){
             //cache hit
