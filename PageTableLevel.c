@@ -144,9 +144,7 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
     }// until the last level or node is reached
     // if the entry is logged before return a pointer to its map
     // if cache is missed but page is hit push the recent entry to the cache
-    Node* new = (Node*)malloc(sizeof(Node));
-    new->vpn = ret;
-    new->info = cur_pg->map;
+    Node* new = StartNode(ret, cur_pg->map);
     push(cache,new);
     table->page_table_hit+=1;
     return cur_pg->map;
