@@ -327,5 +327,5 @@ void va2pa_atc_ptwalk(PageTable* table, unsigned int Vaddr, Cache* cache){
     log_va2pa_ATC_PTwalk(Vaddr, physical_addr, table->cache_hit_flag, table->table_hit_flag);
     table->cache_hit_flag = false;
     table->table_hit_flag = false; // reset to false
-
+    return;
 }
