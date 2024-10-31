@@ -123,12 +123,12 @@ int compArr(unsigned int* arr1, unsigned int* arr2, unsigned int lvls){
     while(ctr < lvls){
         if(arr1[ctr] != arr2[ctr]){
             printf("match found\n");
-            return 1;
+            return 0;
             
         }
         ctr+=1;
         printf("no match\n");
     }
     printf("match not found\n");
-    return 0;
+    return 1;
 }
