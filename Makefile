@@ -38,6 +38,7 @@ tracereader.o : tracereader.c tracereader.h
 
 log.o : log.c log.h
 	$(CC) $(CCFLAGS) log.c
+
 tlb.o : tlb.c tlb.h
 	$(CC) $(CCFLAGS) tlb.c
 
