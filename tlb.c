@@ -66,6 +66,8 @@ Node* pop(Cache* cache, Node* node) {
     cache->size--;
     printf("cache size after pop %d\n", cache->size);
     printf("cache capacity %d\n", cache->capacity);
+    node->next = NULL;
+    node->prev = NULL;
     return node;
 }
 
