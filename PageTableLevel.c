@@ -155,15 +155,18 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
 }
 
 void insert_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
+    unsigned int *ret;
+    ret = pageIndice(table->bitMasks, table->shift_array, vAddr, table->levelCount);
+
     if(lookup_vpn2pfn(table, vAddr, cache) == NULL){
         //create a new entry
         int curLvl = 0; // start from root level
         PageLevel* cursor = table->zeroPage;
-        unsigned int *ret = (unsigned int *)malloc(sizeof(unsigned int)*table->levelCount);
+        
         while (curLvl < table->levelCount)
         {   
             unsigned int ind = extractPageNumberFromAddress(table->bitMasks[curLvl], table->shift_array[curLvl], vAddr);
-            ret[curLvl] = ind;
+            
             if(cursor->NextLevelPtr[ind] == NULL){
                 // no entry for that index at that level
                 PageLevel* new_page;
