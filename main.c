@@ -14,7 +14,6 @@
 #define READ_BUFFER 1024
 #define max_bits 28
 
-int done_simulation = 0; // to busy wait the main thread till worker finshes
 
 
 int main(int argc, char* argv[]){
@@ -64,16 +63,16 @@ int main(int argc, char* argv[]){
         }
     }
 
-// Debug statements to print values of optional arguments
-        printf("the entered value for n: %u\n", n);
-        printf("the entered value for c: %u\n", tlb_sz);
-        printf("the entered value for o: %s\n", log_mode);    
 
 // Fetch mandatory arguments and verify the input (error handling)
     filename = argv[optind];
     optind+=1; // to the bit array
     int lvl_ctr = 0;
     int total_bits = 0;
+    if(argv[optind] == NULL){
+        printf("Level %d page table must be at least 1 bit\n", lvl_ctr);
+        exit(NORMAL_EXIT);
+    }
     while(argv[optind] != NULL){
         bits_arr[lvl_ctr] = atoi(argv[optind]);
         if(bits_arr[lvl_ctr] <= 0){
@@ -102,18 +101,6 @@ int main(int argc, char* argv[]){
     }
 // *********************************************************************
 
-// Print the file name and depth and array
-
-    printf("File name: %s\n", filename);
-    printf("arr of bits : ");
-    for(int i =0; i < lvl_ctr; i+=1){
-        printf("%d",bits_arr[i]);
-    }
-    printf("\n");
-
-    printf("Depth of the tree: %d\n", lvls);
-
-// Read the contents from the file
 
     file = fopen(filename, "r"); // open the file using the path
 
@@ -191,7 +178,7 @@ Cache* tlb_cache = createCache(tlb_sz); // create a cache and set its max capaci
 
     Root.zeroPage = level0;
     level0->numEntries = Root.entryCount[0];
-    //Root.total_entry = Root.entryCount[0]; // start with all entries at level 0
+
 
     p2AddrTr mTrace;
     unsigned int vAddr;
@@ -219,7 +206,7 @@ Cache* tlb_cache = createCache(tlb_sz); // create a cache and set its max capaci
             ctr+=1;
         }
         if(strcmp(log_mode, "summary") == 0){
-            //printf("in here\n");
+
             Root.total_entry += Root.entryCount[0];
             log_summary(Root.page_size, Root.cache_hit, Root.page_table_hit, ctr, Root.frame_count, Root.total_entry);
         }
@@ -246,7 +233,7 @@ Cache* tlb_cache = createCache(tlb_sz); // create a cache and set its max capaci
             ctr+=1;
         }
         if(strcmp(log_mode, "summary") == 0){
-            //printf("in here\n");
+
             Root.total_entry+= Root.entryCount[0];
             log_summary(Root.page_size, Root.cache_hit, Root.page_table_hit, ctr, Root.frame_count, Root.total_entry);
         }

@@ -61,7 +61,7 @@ PageTable startPageTable(int lvls){
     if(root.zeroPage == NULL){
         FailSafe();
     }
-    //root.zeroPage = NULL; // initially points to nothing
+
     return root; // Page Table is the root
 }
 
@@ -127,8 +127,7 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
     // the above is a list of ints vpn 
         // compare it to the vpn arr in cache
         if(cache_info!= NULL){
-            //printf("Address found in cache\n");
-            //printf("found a match\n");
+
             table->cache_hit+=1;
             table->cache_hit_flag = true;
             return cache_info->info; // if hit return else move on
@@ -152,9 +151,9 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
     // if the entry is logged before return a pointer to its map
     // if cache is missed but page is hit push the recent entry to the cache
     Node* new = StartNode(ret, cur_pg->map);
-   // printf("page hit so pushing frame %d\n", new->info->pfn);
+
     push(cache,new);
-   // printf("address processing complete\n");
+
    
     table->page_table_hit+=1;
     table->table_hit_flag = true;
@@ -259,7 +258,7 @@ unsigned int recordPageAccess(unsigned int addr, PageLevel* pgLvl){
             unsigned int ptrArraySize;
             if(curLvl < rootPtr->levelCount-1){
                 ptrArraySize = pgLvl->root->entryCount[curLvl+1];
-                //printf("Current level: %d\n", curLvl);
+    
             }
             else{
                 ptrArraySize = 0;

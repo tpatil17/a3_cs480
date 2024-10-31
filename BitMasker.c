@@ -104,7 +104,7 @@ int NumLvl(char* arr){
 
 unsigned int offset(int sum, unsigned int vAddr){
     unsigned int base = 0xFFFFFFFF;
-    //printf("the sum of all bits is: %d\n", sum);
+
     
     int shift = sum;
     return (vAddr & (base >> shift));
