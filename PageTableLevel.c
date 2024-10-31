@@ -135,6 +135,7 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
         }
         
         // if cache is missed
+    table->cache_hit_flag = false;
     while(curLvl < table->levelCount){
         
         unsigned int ind = extractPageNumberFromAddress(table->bitMasks[curLvl], table->shift_array[curLvl], vAddr);
@@ -142,6 +143,7 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
         if(cur_pg->NextLevelPtr[ind] == NULL){
             // if the vpn is not logged return NULL
             //printf("new vpn detected\n");
+            table->table_hit_flag = false;
             return NULL;
         }
         cur_pg = cur_pg->NextLevelPtr[ind];// point the cursor to new page level
@@ -167,6 +169,8 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
 
     if(lookup_vpn2pfn(table, vAddr, cache) == NULL){
         //create a new entry
+        table->cache_hit_flag = false;
+        table->table_hit_flag = false;
         int curLvl = 0; // start from root level
         PageLevel* cursor = table->zeroPage;
         
