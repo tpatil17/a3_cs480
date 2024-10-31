@@ -182,7 +182,7 @@ Root.bit_sum = sum;
 // 
 //**********************************************************************************************
 Cache* tlb_cache = createCache(tlb_sz); // create a cache and set its max capacity
-printf("Cache of size %d created\n", tlb_sz);
+//printf("Cache of size %d created\n", tlb_sz);
 //**********************************************************************************************
 // log bitmaks condition is take care off and a page table is created
 // Following lines will read in the trace file and create pages

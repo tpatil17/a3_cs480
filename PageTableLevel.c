@@ -125,7 +125,7 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
     // the above is a list of ints vpn 
         // compare it to the vpn arr in cache
         if(cache_info!= NULL){
-            printf("Address found in cache\n");
+            //printf("Address found in cache\n");
             table->cache_hit+=1;
             return cache_info->info; // if hit return else move on
         }

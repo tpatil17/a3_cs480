@@ -44,7 +44,7 @@ Cache* createCache(int capacity){
 
 // Function to pop a specific node from the queue
 Node* pop(Cache* cache, Node* node) {
-    printf("node to pop has pf : %u\n", node->info->pfn);
+    //printf("node to pop has pf : %u\n", node->info->pfn);
     if (node->prev) {
         node->prev->next = node->next;
     } else {
@@ -69,13 +69,13 @@ Node* pop(Cache* cache, Node* node) {
 void push(Cache* cache, Node* node) {
 
     if(cache->capacity == 0){
-        printf("cache size is zero, no cache implemented\n");
+        //printf("cache size is zero, no cache implemented\n");
         return;
     }
 
     if(cache->size == cache->capacity){
         //the cache is full
-        printf("cache is full\n");
+        //printf("cache is full\n");
         Node* temp = cache->head;
         cache->head = cache->head->next;
         pop(cache, temp);// toss the least recently used value out
@@ -115,7 +115,7 @@ Node* lookup_Cache(Cache* cache, unsigned int* vpn, unsigned int lvls) {
         }
         temp = temp->next;
     }
-    printf("entry not in cache\n");
+    //printf("entry not in cache\n");
     return NULL;
 }
 
@@ -124,13 +124,13 @@ int compArr(unsigned int* arr1, unsigned int* arr2, unsigned int lvls){
     int ctr = 0;
     while(ctr < lvls){
         if(arr1[ctr] != arr2[ctr]){
-            printf("match found\n");
+            //printf("match found\n");
             return 0;
             
         }
         ctr+=1;
-        printf("no match\n");
+        //printf("no match\n");
     }
-    printf("match not found\n");
+    //printf("match not found\n");
     return 1;
 }
