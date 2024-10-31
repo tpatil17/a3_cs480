@@ -120,8 +120,8 @@ Node* lookup_Cache(Cache* cache, unsigned int* vpn, unsigned int lvls) {
             //cache hit
             // swap the current node to the end and update the latest used vpn
             printf("match found in cache\n");
-            Node* to_push = pop(cache, temp);
-            push(cache, to_push);
+            pop(cache, temp);
+            push(cache, temp);
             return temp;
         }
         printf("Node vpn:");
