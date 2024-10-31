@@ -126,7 +126,7 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
         // compare it to the vpn arr in cache
         if(cache_info!= NULL){
             //printf("Address found in cache\n");
-            printf("found a match\n");
+            //printf("found a match\n");
             table->cache_hit+=1;
             return cache_info->info; // if hit return else move on
         }
@@ -138,7 +138,7 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
         
         if(cur_pg->NextLevelPtr[ind] == NULL){
             // if the vpn is not logged return NULL
-            printf("new vpn detected\n");
+            //printf("new vpn detected\n");
             return NULL;
         }
         cur_pg = cur_pg->NextLevelPtr[ind];// point the cursor to new page level
@@ -147,9 +147,9 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
     // if the entry is logged before return a pointer to its map
     // if cache is missed but page is hit push the recent entry to the cache
     Node* new = StartNode(ret, cur_pg->map);
-    printf("page hit so pushing frame %d\n", new->info->pfn);
+   // printf("page hit so pushing frame %d\n", new->info->pfn);
     push(cache,new);
-    printf("address processing complete\n");
+   // printf("address processing complete\n");
    
     table->page_table_hit+=1;
     return cur_pg->map;
@@ -178,8 +178,7 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
                     // add to cache
                     Node* new = StartNode(ret, new_page->map);
                     push(cache, new);
-                    printf("the new frame in cache is : %d\n", new->info->pfn);
-                    printf("new pages frame number is : %d\n", new_page->map->pfn);
+                   
                     table->total_entry += 0;
                     table->frame_count+=1;
                 }else{

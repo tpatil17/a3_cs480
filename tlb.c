@@ -120,14 +120,12 @@ Node* lookup_Cache(Cache* cache, unsigned int* vpn, unsigned int lvls) {
     Node* temp = NULL;
     temp = cache->head;
     while(temp != NULL){
-        printf("comparting the following arrays\n");
-        log_pagemapping(lvls, vpn, temp->info->pfn);
-        log_pagemapping(lvls, temp->vpn, temp->info->pfn);
+        
         int jump = compArr(temp->vpn, vpn, lvls);
         if(jump == 1){
             //cache hit
             // swap the current node to the end and update the latest used vpn
-            printf("match found in cache\n");
+            //printf("match found in cache\n");
             pop(cache, temp);
             push(cache, temp);
             return temp;
