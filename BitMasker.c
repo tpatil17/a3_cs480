@@ -1,8 +1,9 @@
 //************************************************************************
-// Name: Tanishq Patil
-// RED ID: 132639686
+// Group Assignment
+// Member Names: Tanishq Patil, Elai Lopez
+// RED IDs: 132639686 , 825365860 (in that order)
 // Class: CS 480
-// Assignment 1
+// Assignment 3
 //************************************************************************
 #include<stdio.h>
 #include<string.h>

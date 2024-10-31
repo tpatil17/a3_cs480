@@ -1,4 +1,10 @@
-
+//************************************************************************
+// Group Assignment
+// Member Names: Tanishq Patil, Elai Lopez
+// RED IDs: 132639686 , 825365860 (in that order)
+// Class: CS 480
+// Assignment 3
+//************************************************************************
 #ifndef TLB_H
 #define TLB_H
 

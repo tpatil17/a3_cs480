@@ -1,8 +1,9 @@
 //************************************************************************
-// Name: Tanishq Patil
-// RED ID: 132639686
+// Group Assignment
+// Member Names: Tanishq Patil, Elai Lopez
+// RED IDs: 132639686 , 825365860 (in that order)
 // Class: CS 480
-// Assignment 1
+// Assignment 3
 //************************************************************************
 #include<stdio.h>
 #include<string.h>
@@ -212,78 +213,6 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
 }
 // Traverse tree for a given page number, create new levels if not alredy created
 // Function below checks if at a given level the page it needs to go to is null, if null a new level is created
-
-unsigned int recordPageAccess(unsigned int addr, PageLevel* pgLvl){
-
-    //update the level attributes for each level
-    //current level in case we need to create a page
-    int curLvl = pgLvl->lvl;
-
-    // pointer to the root or the Page Table
-    PageTable* rootPtr = pgLvl->root;
-
-    if(curLvl == rootPtr->levelCount){
-        pgLvl->numAccess++;
-
-        return pgLvl->numAccess;
-    }
-
-    //
-    //
-    else{
-        unsigned int curPageMask = pgLvl->root->bitMasks[pgLvl->lvl];
-
-        
-        unsigned int curPageShift = pgLvl->root->shift_array[pgLvl->lvl];
-
-
-        unsigned int pgNum = extractPageNumberFromAddress(curPageMask, curPageShift, addr);
-        // check if the page entry is null
-
-
-        
-        if (pgLvl->NextLevelPtr == NULL) {
-        fprintf(stderr, "Error: pgLvl or NextLevelPtr is NULL\n");
-        return 1;
-        }
-
-        PageLevel* nxtLevel = pgLvl->NextLevelPtr[pgNum]; //get the pointer to next level
-        if ( nxtLevel != NULL){
-
-            return recordPageAccess(addr, nxtLevel); //repeat till next level 
-        } 
-        else{
-        
-            // create a new page
-            unsigned int ptrArraySize;
-            if(curLvl < rootPtr->levelCount-1){
-                ptrArraySize = pgLvl->root->entryCount[curLvl+1];
-    
-            }
-            else{
-                ptrArraySize = 0;
-            }
-            
-
-            PageLevel* newPage;
-            newPage = startPageLevel(curLvl+1, rootPtr, ptrArraySize);
-
-
-            nxtLevel = newPage;
-            pgLvl->NextLevelPtr[pgNum] = newPage;
-
-            if(newPage->lvl == rootPtr->levelCount){
-                // we have reached the deepest level
-                newPage->numAccess++;
-                return newPage->numAccess;
-            }
-            else{
-                return recordPageAccess(addr, newPage);
-            }
-
-        }
-    }
-}
 
 // Function to return an array of indeces
 unsigned int* pageIndice(unsigned int* PageMasks, unsigned int* shiftSizes, unsigned int Addr, int lvls){

@@ -1,8 +1,9 @@
 //************************************************************************
-// Name: Tanishq Patil
-// RED ID: 132639686
+// Group Assignment
+// Member Names: Tanishq Patil, Elai Lopez
+// RED IDs: 132639686 , 825365860 (in that order)
 // Class: CS 480
-// Assignment 1
+// Assignment 3
 //************************************************************************
 #ifndef PAGETABLELEVEL_H
 #define PAGETABLELEVEL_H
@@ -87,9 +88,6 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache);
 void insert_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache);
 // Traverse tree for a given page number, create new levels if not alredy created
 // Function below checks if at a given level the page it needs to go to is null, if null a new level is created
-
-
-unsigned int recordPageAccess(unsigned int addr, PageLevel* pgLvl);
 
 // Function that returns an array of page indices given an address and levels
 
