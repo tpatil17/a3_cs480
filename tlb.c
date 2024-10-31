@@ -5,7 +5,7 @@
 #include<stdlib.h>
 #include"BitMasker.h"
 #include"tlb.h"
-
+#include"log.h"
 
 /**
  * @brief Allocate memory for the map struct
@@ -45,6 +45,7 @@ Cache* createCache(int capacity){
 // Function to pop a specific node from the queue
 Node* pop(Cache* cache, Node* node) {
     //printf("node to pop has pf : %u\n", node->info->pfn);
+
     if (node->prev) {
         node->prev->next = node->next;
     } else {
@@ -61,13 +62,15 @@ Node* pop(Cache* cache, Node* node) {
 
     // upadte the cache size
     cache->size--;
-    
+    printf("cache size %d\n", cache->size);
+    printf("cache capacity %d\n", cache->capacity);
     return node;
 }
 
 // Function to add a node to the back of the queue
 void push(Cache* cache, Node* node) {
-
+    printf("cache size %d\n", cache->size);
+    printf("cache capacity %d\n", cache->capacity);
     if(cache->capacity == 0){
         //printf("cache size is zero, no cache implemented\n");
         return;
@@ -109,28 +112,30 @@ Node* lookup_Cache(Cache* cache, unsigned int* vpn, unsigned int lvls) {
         if(jump == 0){
             //cache hit
             // swap the current node to the end and update the latest used vpn
-            pop(cache, temp);
-            push(cache, temp);
+            printf("match found in cache\n");
+            Node* to_push = pop(cache, temp);
+            push(cache, to_push);
             return temp;
         }
         temp = temp->next;
     }
-    //printf("entry not in cache\n");
+    printf("entry not in cache\n");
     return NULL;
 }
 
 int compArr(unsigned int* arr1, unsigned int* arr2, unsigned int lvls){
     
     int ctr = 0;
+    
     while(ctr < lvls){
         if(arr1[ctr] != arr2[ctr]){
-            //printf("match found\n");
+            printf("match found\n");
             return 0;
             
         }
         ctr+=1;
         //printf("no match\n");
     }
-    //printf("match not found\n");
+    printf("match not found\n");
     return 1;
 }
