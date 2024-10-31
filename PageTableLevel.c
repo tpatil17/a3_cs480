@@ -173,8 +173,7 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
                 }else{
                     new_page = startPageLevel(curLvl, table, table->entryCount[curLvl+1]);
                     table->total_entry += table->entryCount[curLvl+1];
-                    printf("current level: %d\n", curLvl);
-                    printf("arr size: %d\n", table->entryCount[curLvl+1]);
+                    
                 }
                 
                 cursor->NextLevelPtr[ind] = new_page;
