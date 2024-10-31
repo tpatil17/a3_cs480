@@ -213,6 +213,9 @@ Cache* tlb_cache = createCache(tlb_sz); // create a cache and set its max capaci
                 unsigned int *ind_arr = pageIndice(Root.bitMasks, Root.shift_array, vAddr, lvls);
                 vpn2pfn(&Root, vAddr, ind_arr, tlb_cache);
             }
+            if(strcmp("va2pa_atc_ptwalk", log_mode)==0){
+                va2pa_atc_ptwalk(&Root, vAddr, tlb_cache);
+            }
             ctr+=1;
         }
         if(strcmp(log_mode, "summary") == 0){
@@ -236,6 +239,9 @@ Cache* tlb_cache = createCache(tlb_sz); // create a cache and set its max capaci
             if(strcmp(log_mode, "vpn2pfn") == 0){
                 unsigned int *ind_arr = pageIndice(Root.bitMasks, Root.shift_array, vAddr, lvls);
                 vpn2pfn(&Root, vAddr, ind_arr, tlb_cache);
+            }
+            if(strcmp("va2pa_atc_ptwalk", log_mode)==0){
+                va2pa_atc_ptwalk(&Root, vAddr, tlb_cache);
             }
             ctr+=1;
         }

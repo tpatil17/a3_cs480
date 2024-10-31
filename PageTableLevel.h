@@ -8,6 +8,7 @@
 #define PAGETABLELEVEL_H
 
 #include<stdlib.h>
+#include<stdbool.h>
 #include<stdio.h>
 #include<unistd.h>
 #include "tlb.h"
@@ -22,6 +23,8 @@ typedef struct PageLevel PageLevel;
 typedef struct PageTable{
 
     int levelCount; // specified number of levels, based on command line prompt
+    bool cache_hit_flag; // false (set it hit to false)
+    bool table_hit_flag; // false
     unsigned int frame_count; // starts at zero, increses every time a frame is allocated
     unsigned int *bitMasks; // pointer to an array of bitmasks
     unsigned int *shift_array; //bits to shift at each level
@@ -92,9 +95,11 @@ unsigned int recordPageAccess(unsigned int addr, PageLevel* pgLvl);
 
 unsigned int* pageIndice(unsigned int* PageMasks, unsigned int* shiftSizes, unsigned int Addr, int lvls);
 
-void table_entries(PageTable* table, PageLevel* cursor);
+
 
 void va2pa(PageTable* table ,unsigned int Vaddr, Cache* cache);
 
 void vpn2pfn(PageTable* table, unsigned int Vaddr, unsigned int* arr, Cache* cache);
+
+void va2pa_atc_ptwalk(PageTable* table, unsigned int Vaddr, Cache* cache);
 #endif

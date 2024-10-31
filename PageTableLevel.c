@@ -24,6 +24,8 @@ void FailSafe(){
 PageTable startPageTable(int lvls){
 
     PageTable root;
+    root.cache_hit_flag = false;
+    root.table_hit_flag = false;
     root.frame_count =0;
     root.total_entry = 0;
     root.page_table_hit = 0;
@@ -128,6 +130,7 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
             //printf("Address found in cache\n");
             //printf("found a match\n");
             table->cache_hit+=1;
+            table->cache_hit_flag = true;
             return cache_info->info; // if hit return else move on
         }
         
@@ -152,6 +155,7 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
    // printf("address processing complete\n");
    
     table->page_table_hit+=1;
+    table->table_hit_flag = true;
     return cur_pg->map;
 
 
@@ -292,17 +296,6 @@ unsigned int* pageIndice(unsigned int* PageMasks, unsigned int* shiftSizes, unsi
 }
 
 
-void table_entries(PageTable* table, PageLevel* cursor){
-    // Using dfs to recurisvely visit each node and calculate the table entries
-    table->total_entry += table->entryCount[cursor->lvl];
-    for(int i = 0; i < table->entryCount[cursor->lvl]; i+=1){
-        
-        if(cursor->NextLevelPtr[i] != NULL){
-
-            table_entries(table, cursor->NextLevelPtr[i]);
-        }
-    }
-}
 
 void va2pa(PageTable*table, unsigned int Vaddr, Cache* cache){
     // get the map of vpn to pfn
@@ -324,3 +317,15 @@ void vpn2pfn(PageTable* table, unsigned int Vaddr, unsigned int* arr, Cache* cac
 
 }
     
+void va2pa_atc_ptwalk(PageTable* table, unsigned int Vaddr, Cache* cache){
+    Map* frm_info =lookup_vpn2pfn(table, Vaddr, cache);
+    // convert frame number to physical addr
+
+    unsigned int off = offset(table->bit_sum, Vaddr); // get the offset
+    int of_bit = 32 - table->bit_sum;
+    unsigned int physical_addr = (frm_info->pfn << of_bit) + off;
+    log_va2pa_ATC_PTwalk(Vaddr, physical_addr, table->cache_hit_flag, table->table_hit_flag);
+    table->cache_hit_flag = false;
+    table->table_hit_flag = false; // reset to false
+
+}
