@@ -101,5 +101,5 @@ void va2pa(PageTable* table ,unsigned int Vaddr, Cache* cache);
 
 void vpn2pfn(PageTable* table, unsigned int Vaddr, unsigned int* arr, Cache* cache);
 
-void va2pa_atc_ptwalk(PageTable* table, unsigned int Vaddr, Cache* cache);
+void va2pa_atc_ptwalk(PageTable* table, unsigned int Vaddr, Cache* cache, bool cach_flag, bool table_flag);
 #endif

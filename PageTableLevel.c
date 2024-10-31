@@ -321,14 +321,14 @@ void vpn2pfn(PageTable* table, unsigned int Vaddr, unsigned int* arr, Cache* cac
 
 }
     
-void va2pa_atc_ptwalk(PageTable* table, unsigned int Vaddr, Cache* cache){
+void va2pa_atc_ptwalk(PageTable* table, unsigned int Vaddr, Cache* cache, bool cach_flag, bool table_flag){
     Map* frm_info =lookup_vpn2pfn(table, Vaddr, cache);
     // convert frame number to physical addr
 
     unsigned int off = offset(table->bit_sum, Vaddr); // get the offset
     int of_bit = 32 - table->bit_sum;
     unsigned int physical_addr = (frm_info->pfn << of_bit) + off;
-    log_va2pa_ATC_PTwalk(Vaddr, physical_addr, table->cache_hit_flag, table->table_hit_flag);
+    log_va2pa_ATC_PTwalk(Vaddr, physical_addr, cach_flag, table_flag);
     table->cache_hit_flag = false;
     table->table_hit_flag = false; // reset to false
     return;
