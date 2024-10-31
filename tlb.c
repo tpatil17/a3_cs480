@@ -122,7 +122,7 @@ Node* lookup_Cache(Cache* cache, unsigned int* vpn, unsigned int lvls) {
     while(temp != NULL){
         printf("comparting the following arrays\n");
         log_pagemapping(lvls, vpn, temp->info->pfn);
-        log_pagemapping(lvls, temp->vpn, temp->info);
+        log_pagemapping(lvls, temp->vpn, temp->info->pfn);
         int jump = compArr(temp->vpn, vpn, lvls);
         if(jump == 0){
             //cache hit
