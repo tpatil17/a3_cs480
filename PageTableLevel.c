@@ -173,6 +173,8 @@ void insert_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
                     // add to cache
                     Node* new = StartNode(ret, new_page->map);
                     push(cache, new);
+                    printf("the new frame in cache is : %d\n", new->info->pfn);
+                    printf("new pages frame number is : %d\n", new_page->map->pfn);
                     table->total_entry += 0;
                     table->frame_count+=1;
                 }else{
