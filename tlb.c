@@ -84,11 +84,11 @@ void push(Cache* cache, Node* node) {
 }
 
 // Utility to print cache contents
-Node* lookup_Cache(Cache* cache, unsigned int* vpn) {
+Node* lookup_Cache(Cache* cache, unsigned int* vpn, unsigned int lvls) {
     
     Node* temp = cache->head;
     while(temp != NULL){
-        if(compArr(temp->vpn, vpn) == 0){
+        if(compArr(temp->vpn, vpn, lvls) == 0){
             //cache hit
             // swap the current node to the end and update the latest used vpn
             pop(cache, temp);
@@ -100,10 +100,10 @@ Node* lookup_Cache(Cache* cache, unsigned int* vpn) {
     return NULL;
 }
 
-int compArr(unsigned int* arr1, unsigned int* arr2){
+int compArr(unsigned int* arr1, unsigned int* arr2, unsigned int lvls){
     
     int ctr = 0;
-    while(arr1[ctr] != NULL){
+    while(ctr < lvls){
         if(arr1[ctr] != arr2[ctr]){
             return 1;
         }

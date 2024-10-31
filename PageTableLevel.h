@@ -6,6 +6,10 @@
 //************************************************************************
 #ifndef PAGETABLELEVEL_H
 #define PAGETABLELEVEL_H
+
+#include<stdlib.h>
+#include<stdio.h>
+#include<unistd.h>
 #include "tlb.h"
 
 // Header file for Page Table struct, Page level and related functions

@@ -39,9 +39,9 @@ Node* pop(Cache* cache, Node* node);
 void push(Cache* cache, Node* node);
 
 // Utility to print cache contents
-Node* lookup_Cache(Cache* cache, unsigned int* vpn);
+Node* lookup_Cache(Cache* cache, unsigned int* vpn, unsigned int lvls);
 
-int compArr(unsigned int* arr1, unsigned int* arr2);
+int compArr(unsigned int* arr1, unsigned int* arr2, unsigned int lvls);
 
 
 #endif
