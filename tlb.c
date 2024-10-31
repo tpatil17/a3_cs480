@@ -124,7 +124,7 @@ Node* lookup_Cache(Cache* cache, unsigned int* vpn, unsigned int lvls) {
         log_pagemapping(lvls, vpn, temp->info->pfn);
         log_pagemapping(lvls, temp->vpn, temp->info->pfn);
         int jump = compArr(temp->vpn, vpn, lvls);
-        if(jump == 0){
+        if(jump == 1){
             //cache hit
             // swap the current node to the end and update the latest used vpn
             printf("match found in cache\n");
