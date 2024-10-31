@@ -4,9 +4,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "PageTableLevel.h"
+
 
 // Node structure for doubly linked list
+// Map data structure to store frame vpn to pfn map
+typedef struct Map{
+    int valid; // validity marker, 0 for not and 1 for yes
+    unsigned int pfn; // starts at zero
+}Map;
+
 typedef struct Node{
     unsigned int* vpn;
     Map* info;
@@ -25,6 +31,7 @@ typedef struct Cache {
     unsigned int hits;
 } Cache;
 
+Map* startMap();// initializer for map struct
 // Helper function to create a new node
 Node* StartNode(unsigned int* vpn, Map* info);
 

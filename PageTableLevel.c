@@ -18,18 +18,7 @@ void FailSafe(){
     perror("Failed to allocate Memory");
     exit(EXIT_FAILURE);
 }
-/**
- * @brief Allocate memory for the map struct
- * 
- *  
- * @return Map* 
- */
-Map* startMap(){
-    Map* map = (Map*)malloc(sizeof(map));
-    map->valid = 0;
 
-    return map;
-}
 
 // create an empty page table
 PageTable startPageTable(int lvls){

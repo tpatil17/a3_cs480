@@ -1,11 +1,24 @@
 
-#include"PageTableLevel.h"
+
 #include<string.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include"BitMasker.h"
 #include"tlb.h"
 
+
+/**
+ * @brief Allocate memory for the map struct
+ * 
+ *  
+ * @return Map* 
+ */
+Map* startMap(){
+    Map* map = (Map*)malloc(sizeof(map));
+    map->valid = 0;
+
+    return map;
+}
 // Helper function to create a new node
 Node* StartNode(unsigned int* vpn, Map* info) {
     Node* new = (Node*)malloc(sizeof(Node));

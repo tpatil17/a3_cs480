@@ -14,11 +14,6 @@
 
 // Header file for Page Table struct, Page level and related functions
 
-// Map data structure to store frame vpn to pfn map
-typedef struct Map{
-    int valid; // validity marker, 0 for not and 1 for yes
-    unsigned int pfn; // starts at zero
-}Map;
 
 // declare a reference to PageLevel
 typedef struct PageLevel PageLevel;
@@ -62,7 +57,7 @@ struct PageLevel{
 
 void FailSafe(); // In case of errors, grace fully fail. In case of memory allocation
 
-Map* startMap();// initializer for map struct
+
 
 PageTable startPageTable(int lvls); // For the Page Table, arguments are the number of levels
 
