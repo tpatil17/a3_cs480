@@ -120,12 +120,14 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
     PageLevel* cur_pg = table->zeroPage;
     // look up the cache first
     unsigned int *ret = pageIndice(table->bitMasks, table->shift_array, vAddr, table->levelCount);
+    Node* cache_info = lookup_Cache(cache, ret, table->levelCount);
+   
     // the above is a list of ints vpn 
         // compare it to the vpn arr in cache
-        if(lookup_Cache(cache, ret, table->levelCount)!= NULL){
+        if(cache_info!= NULL){
             printf("Address found in cache\n");
             table->cache_hit+=1;
-            return lookup_Cache(cache, ret, table->levelCount)->info; // if hit return else move on
+            return cache_info->info; // if hit return else move on
         }
         
         // if cache is missed
