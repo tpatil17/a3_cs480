@@ -124,7 +124,7 @@ Map* lookup_vpn2pfn(PageTable* table, unsigned int vAddr, Cache* cache){
         // compare it to the vpn arr in cache
         if(lookup_Cache(cache, ret, table->levelCount)!= NULL){
             table->cache_hit+=1;
-            return lookup_Cache(cache, ret, table->levelCount); // if hit return else move on
+            return lookup_Cache(cache, ret, table->levelCount)->info; // if hit return else move on
         }
         // if cache is missed
     while(curLvl < table->levelCount){
