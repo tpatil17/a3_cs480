@@ -105,7 +105,8 @@ Node* lookup_Cache(Cache* cache, unsigned int* vpn, unsigned int lvls) {
     Node* temp = NULL;
     temp = cache->head;
     while(temp != NULL){
-        if(compArr(temp->vpn, vpn, lvls) == 0){
+        int jump = compArr(temp->vpn, vpn, lvls);
+        if(jump == 0){
             //cache hit
             // swap the current node to the end and update the latest used vpn
             pop(cache, temp);
